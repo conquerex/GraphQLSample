@@ -14,6 +14,7 @@ import okhttp3.OkHttpClient
 class MainActivity : AppCompatActivity() {
 
     private val BASE_URL = "https://api.github.com/graphql"
+    private val TAG = this.javaClass.simpleName
     private lateinit var client: ApolloClient
 
 
@@ -24,50 +25,32 @@ class MainActivity : AppCompatActivity() {
         client = setUpApollo()
 
         button.setOnClickListener {
-
+            Log.d(TAG, "* * * Click :: ${editInputName.text} :: ${editInputOwner.text}")
             client.query(
                 FindQueryOnGithubQuery
                     .builder()
-                    .name("octocat")
-                    .owner("Hello-World")
+                    .name(editInputName.text.toString())
+                    .owner(editInputOwner.text.toString())
                     .build()
             ).enqueue(object : ApolloCall.Callback<FindQueryOnGithubQuery.Data>() {
                 override fun onFailure(e: ApolloException) {
-                    Log.e("TAG1", e.message.toString())
+                    Log.d(TAG, "* * * onFailure")
+                    Log.d(TAG, "* * * " + e.message.toString())
                 }
 
                 override fun onResponse(response: Response<FindQueryOnGithubQuery.Data>) {
-
-                    Log.e("TAG2", "${response.data()?.repository()}")
+                    Log.d(TAG, "* * * onResponse")
+                    Log.d(TAG, "* * * ${response.data()?.repository()}")
 
                     runOnUiThread {
-                        /*progress_bar.visibility = View.GONE
-
-                        name_text_view.text = String.format(
-                            getString(R.string.name_text),
-                            response.data()?.repository()?.name()
-                        )
-
-                        description_text_view.text = String.format(
-                            getString(R.string.description_text),
-                            response.data()?.repository()?.description()
-                        )
-                        forks_text_view.text = String.format(
-                            getString(R.string.fork_count_text),
-                            response.data()?.repository()?.forkCount().toString()
-                        )
-                        url_text_view.text = String.format(
-                            getString(R.string.url_count_text),
-                            response.data()?.repository()?.url().toString()
-                        )
-*/
+                        textName.text = response.data()?.repository?.name
+                        textDes.text = response.data()?.repository?.description
+                        textForkCount.text = response.data()?.repository?.forkCount.toString()
+                        textUrl.text = response.data()?.repository?.url.toString()
                     }
                 }
-
             })
         }
-
-
     }
 
     private fun setUpApollo(): ApolloClient {
