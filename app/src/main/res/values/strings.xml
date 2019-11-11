@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GraphqlSample</string>
+    <string name="AUTH_TOKEN">ff8a8e23a56bb19ebecb78cb13ae64528fef5e53</string>
+
 </resources>
