@@ -6,10 +6,17 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'com.apollographql.android'
 
+
+def apikeyPropertiesFile = rootProject.file("apikey.properties")
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
+        buildConfigField("String", "AUTH_TOKEN", apikeyProperties['AUTH_TOKEN'])
+
         applicationId "com.example.graphqlsample"
         minSdkVersion 15
         targetSdkVersion 29

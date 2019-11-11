@@ -23,8 +23,6 @@ class MainActivity : AppCompatActivity() {
 
         client = setUpApollo()
 
-
-
         button.setOnClickListener {
 
             client.query(
@@ -63,10 +61,7 @@ class MainActivity : AppCompatActivity() {
                             response.data()?.repository()?.url().toString()
                         )
 */
-
                     }
-
-
                 }
 
             })
@@ -84,7 +79,7 @@ class MainActivity : AppCompatActivity() {
             )
             builder.addHeader(
                 "Authorization",
-                "Bearer " + getString(R.string.AUTH_TOKEN)
+                "Bearer " + BuildConfig.AUTH_TOKEN
 
             )
             it.proceed(builder.build())
